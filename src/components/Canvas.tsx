@@ -117,8 +117,7 @@ const Canvas: React.FC = () => {
       className="flex-1 h-full"
       initial="hidden"
       animate="visible"
-      variants={fadeIn}
-    >
+      variants={fadeIn} >
       <ReactFlow
         nodes={nodes}
         edges={edges}
@@ -130,8 +129,7 @@ const Canvas: React.FC = () => {
         onDrop={onDrop}
         snapToGrid
         snapGrid={[15, 15]}
-        fitView
-      >
+        fitView >
        <Background variant={BackgroundVariant.Dots} gap={16} size={1} />;
         <Controls className="shadow-lg" />
         <MiniMap className="border border-gray-200 shadow-md" />
@@ -140,8 +138,7 @@ const Canvas: React.FC = () => {
             className="flex gap-2 p-2 bg-white rounded shadow-md"
             initial="hidden"
             animate="visible"
-            variants={fadeIn}
-          >
+            variants={fadeIn} >
             <motion.button
               onClick={() => useWorkflowStore.getState().undo()}
               className="px-4 py-2 bg-blue-500 text-white font-semibold rounded shadow hover:bg-blue-600 focus:outline-none"
