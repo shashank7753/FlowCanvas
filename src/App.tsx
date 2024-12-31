@@ -4,6 +4,7 @@ import Sidebar from './components/Sidebar';
 import Canvas from './components/Canvas';
 import Analytics from './components/Analytics';
 import useWorkflowStore from './store/workflowStore';
+import { NodeType } from './types/workflow';
 
 function App() {
   const { loadWorkflow } = useWorkflowStore();
@@ -22,7 +23,15 @@ function App() {
 
   return (
     <div className="flex h-screen bg-gray-50">
-      <Sidebar onDragStart={handleDragStart} />
+      <Sidebar onDragStart={handleDragStart} onRemoveNode={function (): void {
+        throw new Error('Function not implemented.');
+      } } onRemoveEdge={function (): void {
+        throw new Error('Function not implemented.');
+      } } onSettingsClick={function (): void {
+        throw new Error('Function not implemented.');
+      } } selectedNode={null} onUpdateNodeProperties={function (name: string, executionTime: number, type: NodeType): void {
+        throw new Error('Function not implemented.');
+      } } />
       <div className="flex-1 flex flex-col">
         <div className="flex-1">
           <ReactFlowProvider>
