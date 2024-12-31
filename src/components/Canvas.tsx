@@ -69,7 +69,7 @@ const Canvas: React.FC<CanvasProps> = ({ initialTheme = 'light' }) => {
 
   const { nodes, edges, addNode, addEdge, updateNode, removeNode, removeEdge } = useWorkflowStore();
   const { project, fitView } = useReactFlow();
-  // Memoize styled nodes for performance
+ 
   const styledNodes = useMemo(
     () =>
       nodes.map(node => ({
