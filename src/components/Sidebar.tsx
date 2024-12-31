@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Circle, Square, Diamond, Play, AlertCircle, Trash2, Trash, Settings, Menu, X } from 'lucide-react';
+import { Circle, Square, Diamond, Play, AlertCircle, Settings, Menu, X } from 'lucide-react';
 import { NodeType } from '../types/workflow';
 
 interface NodeTypeItem {
@@ -26,8 +26,6 @@ interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({
   onDragStart,
-  onRemoveNode,
-  onRemoveEdge,
   onSettingsClick,
   selectedNode,
   onUpdateNodeProperties
@@ -124,21 +122,8 @@ const Sidebar: React.FC<SidebarProps> = ({
       )}
 
       <div className="mt-8 space-y-4">
-        <button
-          onClick={onRemoveNode}
-          className="flex items-center gap-2 w-full px-4 py-2 bg-red-100 text-red-600 rounded hover:bg-red-200" >
-          <Trash className="w-4 h-4" />
-          <span>Remove Node</span>
-        </button>
-
-        <button
-          onClick={onRemoveEdge}
-          className="flex items-center gap-2 w-full px-4 py-2 bg-red-100 text-red-600 rounded hover:bg-red-200" >
-          <Trash2 className="w-4 h-4" />
-          <span>Remove Edge</span>
-        </button>
-
-        <button
+        
+      <button
           onClick={onSettingsClick}
           className="flex items-center gap-2 w-full px-4 py-2 bg-blue-100 text-blue-600 rounded hover:bg-blue-200" >
           <Settings className="w-4 h-4" />
