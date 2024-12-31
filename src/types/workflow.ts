@@ -7,6 +7,7 @@ export interface WorkflowNode {
   data: {
     label: string;
     executionTime: number;
+    style?: React.CSSProperties;
   };
 }
 
