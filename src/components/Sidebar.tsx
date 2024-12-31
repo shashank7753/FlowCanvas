@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Circle, Square, Diamond, Play, AlertCircle, Settings, Menu, X } from 'lucide-react';
+import { Circle, Square, Diamond, Play, AlertCircle, Menu, X } from 'lucide-react';
 import { NodeType } from '../types/workflow';
 
 interface NodeTypeItem {
@@ -26,7 +26,6 @@ interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({
   onDragStart,
-  onSettingsClick,
   selectedNode,
   onUpdateNodeProperties
 }) => {
@@ -122,13 +121,6 @@ const Sidebar: React.FC<SidebarProps> = ({
       )}
 
       <div className="mt-8 space-y-4">
-        
-      <button
-          onClick={onSettingsClick}
-          className="flex items-center gap-2 w-full px-4 py-2 bg-blue-100 text-blue-600 rounded hover:bg-blue-200" >
-          <Settings className="w-4 h-4" />
-          <span>Settings</span>
-        </button>
       </div>
     </>
   );
@@ -161,3 +153,4 @@ const Sidebar: React.FC<SidebarProps> = ({
 };
 
 export default Sidebar;
+

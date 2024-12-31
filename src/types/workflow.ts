@@ -22,3 +22,8 @@ export interface Workflow {
   edges: Edge[];
 }
 
+export interface NodeProperties {
+  id: string;
+  name: string;
+  type: string;
+}

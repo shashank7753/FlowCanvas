@@ -29,7 +29,7 @@ function App() {
         throw new Error('Function not implemented.');
       } } onSettingsClick={function (): void {
         throw new Error('Function not implemented.');
-      } } selectedNode={null} onUpdateNodeProperties={function (name: string, executionTime: number, type: NodeType): void {
+      } } selectedNode={null} onUpdateNodeProperties={function (_: string, _executionTime: number, _type: NodeType): void {
         throw new Error('Function not implemented.');
       } } />
       <div className="flex-1 flex flex-col">
