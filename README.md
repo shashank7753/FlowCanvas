@@ -33,7 +33,14 @@ Follow these steps to set up the project on your local machine:
    npm run dev
    ```
 
-The application will be available at `http://localhost:3000`.
+The application will be available at `http://localhost:5173`.
+
+
+**Deployment**
+The application is deployed and can be accessed live at:
+
+https://flowcanvass.netlify.app
+
 
 ## Project Structure
 
