@@ -2,8 +2,8 @@ import { create } from 'zustand';
 import { Edge, Workflow, WorkflowNode } from '../types/workflow';
 
 interface WorkflowState {
-  redo(): void;
-  undo(): void;
+  redo: () => void;
+  undo: () => void;
   nodes: WorkflowNode[];
   edges: Edge[];
   selectedNode: WorkflowNode | null;
@@ -15,6 +15,8 @@ interface WorkflowState {
   removeEdge: (id: string) => void;
   loadWorkflow: (workflow: Workflow) => void;
   saveWorkflow: () => void;
+  undoStack: { nodes: WorkflowNode[]; edges: Edge[] }[];
+  redoStack: { nodes: WorkflowNode[]; edges: Edge[] }[];
 }
 
 const STORAGE_KEY = 'workflow-state';
@@ -24,31 +26,101 @@ const useWorkflowStore = create<WorkflowState>((set, get) => ({
   edges: [],
   selectedNode: null,
 
-  addNode: (node) => set((state) => ({ nodes: [...state.nodes, node] })),
+  // History stacks for undo/redo
+  undoStack: [] as { nodes: WorkflowNode[]; edges: Edge[] }[],
+  redoStack: [] as { nodes: WorkflowNode[]; edges: Edge[] }[],
 
-  updateNode: (id, updates) =>
-    set((state) => ({
-      nodes: state.nodes.map((node) =>
+  // Redo function
+  redo: () => {
+    const { redoStack, undoStack } = get();
+    if (redoStack.length === 0) return;
+
+    const nextState = redoStack.pop();
+    if (nextState) {
+      set({ 
+        nodes: nextState.nodes, 
+        edges: nextState.edges, 
+        undoStack: [...undoStack, { nodes: get().nodes, edges: get().edges }]
+      });
+    }
+  },
+
+  // Undo function
+  undo: () => {
+    const { undoStack, redoStack } = get();
+    if (undoStack.length === 0) return;
+
+    const previousState = undoStack.pop();
+    if (previousState) {
+      set({
+        nodes: previousState.nodes,
+        edges: previousState.edges,
+        redoStack: [...redoStack, { nodes: get().nodes, edges: get().edges }]
+      });
+    }
+  },
+
+  addNode: (node) => {
+    set((state) => {
+      const newNodeState = { nodes: [...state.nodes, node], edges: state.edges };
+      return {
+        nodes: newNodeState.nodes,
+        edges: newNodeState.edges,
+        undoStack: [...state.undoStack, { nodes: state.nodes, edges: state.edges }],
+      };
+    });
+  },
+
+  updateNode: (id, updates) => {
+    set((state) => {
+      const updatedNodes = state.nodes.map((node) =>
         node.id === id ? { ...node, ...updates } : node
-      ),
-    })),
+      );
+      return {
+        nodes: updatedNodes,
+        edges: state.edges,
+        undoStack: [...state.undoStack, { nodes: state.nodes, edges: state.edges }],
+      };
+    });
+  },
 
-  removeNode: (id) =>
-    set((state) => ({
-      nodes: state.nodes.filter((node) => node.id !== id),
-      edges: state.edges.filter(
+  removeNode: (id) => {
+    set((state) => {
+      const filteredNodes = state.nodes.filter((node) => node.id !== id);
+      const filteredEdges = state.edges.filter(
         (edge) => edge.source !== id && edge.target !== id
-      ),
-    })),
+      );
+      return {
+        nodes: filteredNodes,
+        edges: filteredEdges,
+        undoStack: [...state.undoStack, { nodes: state.nodes, edges: state.edges }],
+      };
+    });
+  },
 
   setSelectedNode: (node) => set({ selectedNode: node }),
 
-  addEdge: (edge) => set((state) => ({ edges: [...state.edges, edge] })),
+  addEdge: (edge) => {
+    set((state) => {
+      const newEdgeState = { nodes: state.nodes, edges: [...state.edges, edge] };
+      return {
+        nodes: state.nodes,
+        edges: newEdgeState.edges,
+        undoStack: [...state.undoStack, { nodes: state.nodes, edges: state.edges }],
+      };
+    });
+  },
 
-  removeEdge: (id) =>
-    set((state) => ({
-      edges: state.edges.filter((edge) => edge.id !== id),
-    })),
+  removeEdge: (id) => {
+    set((state) => {
+      const filteredEdges = state.edges.filter((edge) => edge.id !== id);
+      return {
+        nodes: state.nodes,
+        edges: filteredEdges,
+        undoStack: [...state.undoStack, { nodes: state.nodes, edges: state.edges }],
+      };
+    });
+  },
 
   loadWorkflow: (workflow) => set({ ...workflow }),
 
