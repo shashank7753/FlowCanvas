@@ -35,7 +35,9 @@ const Analytics: React.FC = () => {
       {
         label: 'Execution Time',
         data: nodes.map((node) => node.data.executionTime),
-        backgroundColor: 'rgba(53, 162, 235, 0.5)',
+        backgroundColor: 'rgba(53, 162, 235, 0.7)',
+        hoverBackgroundColor: 'rgba(53, 162, 235, 1)',
+        borderRadius: 5,
       },
     ],
   };
@@ -53,7 +55,10 @@ const Analytics: React.FC = () => {
           []
         ),
         borderColor: 'rgb(75, 192, 192)',
-        tension: 0.1,
+        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+        tension: 0.4,
+        pointBackgroundColor: 'rgb(75, 192, 192)',
+        pointRadius: 5,
       },
     ],
   };
@@ -66,30 +71,64 @@ const Analytics: React.FC = () => {
           (type) => nodes.filter((node) => node.type === type).length
         ),
         backgroundColor: [
-          'rgba(255, 99, 132, 0.5)',
-          'rgba(54, 162, 235, 0.5)',
-          'rgba(255, 206, 86, 0.5)',
-          'rgba(75, 192, 192, 0.5)',
+          'rgba(255, 99, 132, 0.7)',
+          'rgba(54, 162, 235, 0.7)',
+          'rgba(255, 206, 86, 0.7)',
+          'rgba(75, 192, 192, 0.7)',
+        ],
+        hoverBackgroundColor: [
+          'rgba(255, 99, 132, 1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)',
         ],
       },
     ],
   };
 
+  const chartOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        display: true,
+        position: 'top' as const,
+      },
+      tooltip: {
+        enabled: true,
+        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+        titleFont: { size: 14 },
+        bodyFont: { size: 12 },
+        padding: 10,
+      },
+    },
+    animation: {
+      duration: 1500,
+      easing: 'easeInOutQuad' as const,
+    },
+  };
+
   return (
-    <div className="bg-white p-4 rounded-lg shadow">
-      <h2 className="text-xl font-semibold mb-4">Analytics</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
-          <h3 className="text-lg font-medium mb-2">Execution Time by Node</h3>
-          <Bar data={executionTimeData} />
+    <div className="bg-white p-6 rounded-lg shadow-md">
+      <h2 className="text-2xl font-semibold mb-6 text-center">Workflow Analytics</h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+        <div className="p-4 bg-gray-50 rounded-lg shadow">
+          <h3 className="text-lg font-medium mb-4 text-center">Execution Time by Node</h3>
+          <div className="relative h-60">
+            <Bar data={executionTimeData} options={chartOptions} />
+          </div>
         </div>
-        <div>
-          <h3 className="text-lg font-medium mb-2">Cumulative Execution Time</h3>
-          <Line data={cumulativeTimeData} />
+        <div className="p-4 bg-gray-50 rounded-lg shadow">
+          <h3 className="text-lg font-medium mb-4 text-center">Cumulative Execution Time</h3>
+          <div className="relative h-60">
+            <Line data={cumulativeTimeData} options={chartOptions} />
+          </div>
         </div>
-        <div>
-          <h3 className="text-lg font-medium mb-2">Node Type Distribution</h3>
-          <Pie data={nodeTypeData} />
+        <div className="p-4 bg-gray-50 rounded-lg shadow">
+          <h3 className="text-lg font-medium mb-4 text-center">Node Type Distribution</h3>
+          <div className="relative h-60">
+            <Pie data={nodeTypeData} options={chartOptions} />
+          </div>
         </div>
       </div>
     </div>
