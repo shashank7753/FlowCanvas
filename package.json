@@ -16,6 +16,7 @@
     "@dnd-kit/utilities": "^3.2.2",
     "@xyflow/react": "^12.3.6",
     "chart.js": "^4.4.1",
+    "framer-motion": "^11.15.0",
     "lucide-react": "^0.344.0",
     "react": "^18.3.1",
     "react-chartjs-2": "^5.2.0",

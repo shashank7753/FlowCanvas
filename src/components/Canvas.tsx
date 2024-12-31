@@ -1,14 +1,16 @@
+
 import React, { useCallback, useEffect } from 'react';
 import ReactFlow, {
   Background,
   Controls,
   MiniMap,
   Connection,
-  // Node,
   useReactFlow,
   Panel,
-  Edge
+  Edge,
+  BackgroundVariant,
 } from 'reactflow';
+import { motion } from 'framer-motion';
 import 'reactflow/dist/style.css';
 import useWorkflowStore from '../store/workflowStore';
 import { NodeType, WorkflowNode } from '../types/workflow';
@@ -17,8 +19,18 @@ const Canvas: React.FC = () => {
   const { nodes, edges, addNode, addEdge, updateNode, removeNode, removeEdge } = useWorkflowStore();
   const { project } = useReactFlow();
 
+  const fadeIn = {
+    hidden: { opacity: 0, y: -20 },
+    visible: { opacity: 1, y: 0 },
+  };
+
+  const buttonHover = {
+    scale: 1.1,
+    transition: { type: 'spring', stiffness: 300 },
+  };
+
   useEffect(() => {
-   
+    // Effect placeholder
   }, [nodes, edges]);
 
   const onDragOver = useCallback((event: React.DragEvent) => {
@@ -29,7 +41,6 @@ const Canvas: React.FC = () => {
   const onDrop = useCallback(
     (event: React.DragEvent) => {
       event.preventDefault();
-
       const type = event.dataTransfer.getData('application/reactflow');
       if (!type) return;
 
@@ -50,41 +61,43 @@ const Canvas: React.FC = () => {
     [project, addNode]
   );
 
-  const onNodesChange = useCallback((changes: any) => {
-    changes.forEach((change: any) => {
-      if (change.type === 'position' && change.dragging) {
-        updateNode(change.id, { position: change.position });
-      } else if (change.type === 'remove') {
-        removeNode(change.id);
-      }
-    });
-  }, [updateNode, removeNode]);
-
-
-
-
-  //addupdate
-  const onEdgeUpdate = useCallback((oldEdge: Edge, newConnection: Connection) => {
-    if (newConnection.source && newConnection.target) {
-      removeEdge(oldEdge.id);
-      addEdge({
-        id: `${newConnection.source}-${newConnection.target}`,
-        source: newConnection.source,
-        target: newConnection.target
+  const onNodesChange = useCallback(
+    (changes: any) => {
+      changes.forEach((change: any) => {
+        if (change.type === 'position' && change.dragging) {
+          updateNode(change.id, { position: change.position });
+        } else if (change.type === 'remove') {
+          removeNode(change.id);
+        }
       });
-    }
-  }, [removeEdge, addEdge]);
+    },
+    [updateNode, removeNode]
+  );
 
-
-
-
-  const onEdgesChange = useCallback((changes: any) => {
-    changes.forEach((change: any) => {
-      if (change.type === 'remove') {
-        removeEdge(change.id);
+  const onEdgeUpdate = useCallback(
+    (oldEdge: Edge, newConnection: Connection) => {
+      if (newConnection.source && newConnection.target) {
+        removeEdge(oldEdge.id);
+        addEdge({
+          id: `${newConnection.source}-${newConnection.target}`,
+          source: newConnection.source,
+          target: newConnection.target,
+        });
       }
-    });
-  }, [removeEdge]);
+    },
+    [removeEdge, addEdge]
+  );
+
+  const onEdgesChange = useCallback(
+    (changes: any) => {
+      changes.forEach((change: any) => {
+        if (change.type === 'remove') {
+          removeEdge(change.id);
+        }
+      });
+    },
+    [removeEdge]
+  );
 
   const onConnect = useCallback(
     (params: Connection) => {
@@ -100,7 +113,12 @@ const Canvas: React.FC = () => {
   );
 
   return (
-    <div className="flex-1 h-full">
+    <motion.div 
+      className="flex-1 h-full"
+      initial="hidden"
+      animate="visible"
+      variants={fadeIn}
+    >
       <ReactFlow
         nodes={nodes}
         edges={edges}
@@ -112,30 +130,35 @@ const Canvas: React.FC = () => {
         onDrop={onDrop}
         snapToGrid
         snapGrid={[15, 15]}
-        fitView    >
-        <Background />
-        <Controls />
-        <MiniMap />
+        fitView
+      >
+       <Background variant={BackgroundVariant.Dots} gap={16} size={1} />;
+        <Controls className="shadow-lg" />
+        <MiniMap className="border border-gray-200 shadow-md" />
         <Panel position="top-right">
-          <div className="flex gap-2">
-            <button 
+          <motion.div
+            className="flex gap-2 p-2 bg-white rounded shadow-md"
+            initial="hidden"
+            animate="visible"
+            variants={fadeIn}
+          >
+            <motion.button
               onClick={() => useWorkflowStore.getState().undo()}
-              className="px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" >
+              className="px-4 py-2 bg-blue-500 text-white font-semibold rounded shadow hover:bg-blue-600 focus:outline-none"
+              whileHover={buttonHover} >
               Undo
-            </button>
-            <button 
+            </motion.button>
+            <motion.button
               onClick={() => useWorkflowStore.getState().redo()}
-              className="px-3 py-1 bg-gray-100 rounded hover:bg-gray-200"  >
+              className="px-4 py-2 bg-green-500 text-white font-semibold rounded shadow hover:bg-green-600 focus:outline-none"
+              whileHover={buttonHover} >
               Redo
-            </button>
-          </div>
+            </motion.button>
+          </motion.div>
         </Panel>
       </ReactFlow>
-    </div>
+    </motion.div>
   );
 };
 
 export default Canvas;
-
-
-
