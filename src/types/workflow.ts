@@ -1,6 +1,7 @@
 export type NodeType = 'start' | 'end' | 'task' | 'decision';
 
 export interface WorkflowNode {
+  style: any;
   id: string;
   type: NodeType;
   position: { x: number; y: number };
