@@ -31,6 +31,8 @@ function App() {
         throw new Error('Function not implemented.');
       } } selectedNode={null} onUpdateNodeProperties={function (_: string, _executionTime: number, _type: NodeType): void {
         throw new Error('Function not implemented.');
+      } } workflow={{ nodes: [], edges: [] }} onImportWorkflow={function (): void {
+        throw new Error('Function not implemented.');
       } } />
       <div className="flex-1 flex flex-col">
         <div className="flex-1">

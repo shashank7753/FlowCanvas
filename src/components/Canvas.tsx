@@ -13,17 +13,16 @@ import ReactFlow, {
   OnNodesChange,
   OnEdgesChange,
   OnConnect,
-
   ConnectionMode,
 } from 'reactflow';
 import { motion, Variants } from 'framer-motion';
 import { Sun, Moon } from 'lucide-react';
+// import screenToFlowPosition from 'reactflow';
 import 'reactflow/dist/style.css';
 import useWorkflowStore from '../store/workflowStore';
 import { NodeType, WorkflowNode } from '../types/workflow';
 
 const SNAP_GRID: [number, number] = [15, 15];
-
 // Theme configurations
 const THEME_CONFIGS = {
   light: {
@@ -117,8 +116,8 @@ const Canvas: React.FC<CanvasProps> = ({ initialTheme = 'light' }) => {
       if (!type) return;
 
       const position = project({
-        x: event.clientX - 150,
-        y: event.clientY - 30,
+        x: event.clientX ,
+        y: event.clientY ,
       });
 
       const newNode: WorkflowNode = {
