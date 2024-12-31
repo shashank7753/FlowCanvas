@@ -16,16 +16,16 @@ Follow these steps to set up the project on your local machine:
 
 1. **Clone the repository**:
 
-   ```bash
-   git clone <https://github.com/shashank7753/FlowCanvas.git>
-   cd <FlowCanvass>
-   ```
+   bash
+   git clone https://github.com/shashank7753/FlowCanvas.git
+   cd FlowCanvass
+   
 
 2. **Install dependencies**:
 
-   ```bash
+  bash
    npm install
-   ```
+ 
 
 3. **Start the development server**:
 
@@ -59,24 +59,6 @@ To add a new component, create a file in the `src/components/` directory. Use Ty
 
 React Flow is integrated to handle dynamic diagrams and workflows. Refer to the [React Flow documentation](https://reactflow.dev/docs/) for advanced usage.
 
-## Contributing
-
-Contributions are welcome! Please follow these guidelines:
-
-1. Fork the repository.
-2. Create a new branch for your feature or bug fix:
-   ```bash
-   git checkout -b feature/your-feature-name
-   ```
-3. Commit your changes:
-   ```bash
-   git commit -m "Add your message here"
-   ```
-4. Push to your branch:
-   ```bash
-   git push origin feature/your-feature-name
-   ```
-5. Submit a pull request.
 
 ## License
 
