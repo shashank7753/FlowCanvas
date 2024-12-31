@@ -8,7 +8,6 @@ import ReactFlow, {
   Panel,
   Edge,
   BackgroundVariant,
-
   NodeChange,
   EdgeChange,
   OnNodesChange,
@@ -79,7 +78,7 @@ const Canvas: React.FC<CanvasProps> = ({ initialTheme = 'light' }) => {
   const { nodes, edges, addNode, addEdge, updateNode, removeNode, removeEdge } = useWorkflowStore();
   const { project, fitView } = useReactFlow();
 
-  // Apply theme-specific styles to nodes
+ 
   const styledNodes = useMemo(() => 
     nodes.map(node => ({
       ...node,
@@ -230,19 +229,16 @@ const Canvas: React.FC<CanvasProps> = ({ initialTheme = 'light' }) => {
           variant={BackgroundVariant.Dots}
           gap={16}
           size={1}
-          className={themeConfig.background}
-        />
+          className={themeConfig.background} />
         <Controls 
           className={`shadow-lg ${themeConfig.controls} backdrop-blur-sm rounded-lg`}
           showZoom={true}
           showFitView={true}
-          showInteractive={false}
-        />
+          showInteractive={false} />
         <MiniMap 
           className={`border border-gray-200 shadow-md rounded-lg ${themeConfig.panel}`}
           maskColor="rgba(0, 0, 0, 0.1)"
-          nodeColor={themeConfig.nodeColors.default}
-        />
+          nodeColor={themeConfig.nodeColors.default} />
         <Panel position="top-right" className="space-y-2">
           <motion.div
             className={`flex gap-2 p-2 ${themeConfig.panel} backdrop-blur-sm rounded-lg shadow-md`}
@@ -281,4 +277,6 @@ const Canvas: React.FC<CanvasProps> = ({ initialTheme = 'light' }) => {
 };
 
 export default Canvas;
+
+
 
