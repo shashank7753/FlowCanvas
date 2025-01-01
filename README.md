@@ -16,17 +16,16 @@ Follow these steps to set up the project on your local machine:
 
 1. **Clone the repository**:
 
-   bash
+    ```bash
    git clone https://github.com/shashank7753/FlowCanvas.git
    cd FlowCanvass
    
 
 2. **Install dependencies**:
 
-  bash
+   ```bash
    npm install
- 
-
+   ```
 3. **Start the development server**:
 
    ```bash
@@ -40,7 +39,6 @@ The application will be available at `http://localhost:5173`.
 The application is deployed and can be accessed live at:
 
 https://flowcanvass.netlify.app
-
 
 ## Project Structure
 
